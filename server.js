@@ -4,13 +4,12 @@ const cors = require('cors');
 const admin = require('firebase-admin');
 const path = require('path');
 
-// Initialize Firebase Admin (Requires Service Account JSON in Env or Vercel Config)
+// Initialize Firebase Admin SDK
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert({
             projectId: process.env.FIREBASE_PROJECT_ID,
             clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            // Handle newlines in private key for Vercel
             privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
         })
     });
@@ -21,11 +20,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
-// Serve static frontend files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// --- AUTHENTICATION MIDDLEWARE ---
+// Middleware to protect Admin API routes
 const verifyToken = async (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) return res.status(403).json({ error: 'No token provided' });
@@ -39,16 +36,17 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-// --- PUBLIC API ENDPOINTS (For Frontend) ---
+// --- PUBLIC API (Fetches everything in one request for fast frontend loading) ---
 app.get('/api/public/all', async (req, res) => {
     try {
-        // Fetch necessary data for initial page load
-        const [settings, events, activities, resources, gallery] = await Promise.all([
+        const [settings, events, activities, resources, gallery, testimonials, faqs] = await Promise.all([
             db.collection('settings').doc('general').get(),
             db.collection('events').where('status', '==', 'Published').get(),
-            db.collection('activities').orderBy('order', 'asc').get(),
+            db.collection('activities').get(),
             db.collection('resources').get(),
-            db.collection('gallery').get()
+            db.collection('gallery').get(),
+            db.collection('testimonials').get(),
+            db.collection('faqs').get()
         ]);
 
         res.json({
@@ -56,25 +54,23 @@ app.get('/api/public/all', async (req, res) => {
             events: events.docs.map(doc => ({ id: doc.id, ...doc.data() })),
             activities: activities.docs.map(doc => ({ id: doc.id, ...doc.data() })),
             resources: resources.docs.map(doc => ({ id: doc.id, ...doc.data() })),
-            gallery: gallery.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+            gallery: gallery.docs.map(doc => ({ id: doc.id, ...doc.data() })),
+            testimonials: testimonials.docs.map(doc => ({ id: doc.id, ...doc.data() })),
+            faqs: faqs.docs.map(doc => ({ id: doc.id, ...doc.data() }))
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// --- PROTECTED ADMIN API ENDPOINTS (CRUD for any collection) ---
-
-// GET All documents in a collection
+// --- PROTECTED ADMIN API (CRUD Operations) ---
 app.get('/api/admin/:collection', verifyToken, async (req, res) => {
     try {
         const snapshot = await db.collection(req.params.collection).get();
-        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        res.json(data);
+        res.json(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// CREATE document
 app.post('/api/admin/:collection', verifyToken, async (req, res) => {
     try {
         const docRef = await db.collection(req.params.collection).add({
@@ -85,7 +81,6 @@ app.post('/api/admin/:collection', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// UPDATE document
 app.put('/api/admin/:collection/:id', verifyToken, async (req, res) => {
     try {
         await db.collection(req.params.collection).doc(req.params.id).set({
@@ -96,7 +91,6 @@ app.put('/api/admin/:collection/:id', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// DELETE document
 app.delete('/api/admin/:collection/:id', verifyToken, async (req, res) => {
     try {
         await db.collection(req.params.collection).doc(req.params.id).delete();
@@ -104,7 +98,7 @@ app.delete('/api/admin/:collection/:id', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// Catch-all to serve client
+// Serve frontend SPA fallback
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/client/index.html'));
 });
