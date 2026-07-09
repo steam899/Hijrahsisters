@@ -4,15 +4,20 @@ const cors = require('cors');
 const admin = require('firebase-admin');
 const path = require('path');
 
-// Initialize Firebase Admin SDK
-if (!admin.apps.length) {
-    admin.initializeApp({
-        credential: admin.credential.cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-        })
-    });
+// Initialize Firebase Admin SDK (Hanya berjalan jika Environment Variables wujud)
+try {
+    if (!admin.apps.length) {
+        admin.initializeApp({
+            credential: admin.credential.cert({
+                projectId: process.env.FIREBASE_PROJECT_ID,
+                clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+            })
+        });
+        console.log("Firebase Admin initialized successfully.");
+    }
+} catch (error) {
+    console.error("Firebase Admin initialization failed:", error.message);
 }
 
 const db = admin.firestore();
@@ -20,9 +25,11 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Set folder static
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to protect Admin API routes
+// Middleware untuk verify JWT Token daripada Firebase Auth
 const verifyToken = async (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) return res.status(403).json({ error: 'No token provided' });
@@ -36,7 +43,7 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-// --- PUBLIC API (Fetches everything in one request for fast frontend loading) ---
+// --- PUBLIC API (Untuk website layari) ---
 app.get('/api/public/all', async (req, res) => {
     try {
         const [settings, events, activities, resources, gallery, testimonials, faqs] = await Promise.all([
@@ -59,11 +66,11 @@ app.get('/api/public/all', async (req, res) => {
             faqs: faqs.docs.map(doc => ({ id: doc.id, ...doc.data() }))
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: "Database error: " + error.message });
     }
 });
 
-// --- PROTECTED ADMIN API (CRUD Operations) ---
+// --- PROTECTED ADMIN API (Untuk CMS simpan/padam data) ---
 app.get('/api/admin/:collection', verifyToken, async (req, res) => {
     try {
         const snapshot = await db.collection(req.params.collection).get();
@@ -98,16 +105,20 @@ app.delete('/api/admin/:collection/:id', verifyToken, async (req, res) => {
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
 
-// Serve frontend SPA fallback
+// --- HALUAN TRAFIK (Routing) ---
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/admin/index.html'));
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/client/index.html'));
 });
 
-// KOD BARU (Ganti dengan ini)
+// Hanya run app.listen di lokal komputer, bukan di Vercel
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    app.listen(PORT, () => console.log(`Server running locally on port ${PORT}`));
 }
 
-// INI PALING PENTING UNTUK VERCEL! 👇
+// Eksport untuk kegunaan Serverless Vercel
 module.exports = app;
