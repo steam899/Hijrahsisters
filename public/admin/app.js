@@ -10,41 +10,69 @@ const auth = firebase.auth();
 // 2. IMGBB API KEY (Get this from api.imgbb.com)
 const IMGBB_API_KEY = "50e185b01c7b0fb4206b32827c88a766";
 
-// 3. SKEMA CMS DENGAN STRUKTUR SEKSYEN DAN DATA ASAL (DEFAULT VALUES)
+// 3. SKEMA CMS 100% DINAMIK UNTUK SETIAP BAHAGIAN WEBSITE
 const schema = {
     settings: {
         title: 'Halaman Utama & Teks', isSingle: true,
         fields: [
-            { type: 'heading', label: '🌸 IDENTITI BRANDING WEBSITE' },
-            { name: 'siteName', label: 'Nama Website (Logo)', type: 'text', default: 'Hijrah Sisters' },
-            { name: 'copyright', label: 'Teks Hak Cipta (Copyright)', type: 'text', default: '© 2024 Hijrah Sisters IIUMK. All rights reserved.' },
+            { type: 'heading', label: '🌸 NAVIGATION & BRANDING' },
+            { name: 'siteName', label: 'Nama Website (Logo Utama)', type: 'text', default: 'Hijrah Sisters' },
+            { name: 'siteSub', label: 'Sub-Logo (e.g. IIUMK)', type: 'text', default: 'IIUMK' },
+            { name: 'navJoinBtnText', label: 'Teks Butang Navigasi', type: 'text', default: 'Join Our Circle' },
 
-            { type: 'heading', label: '✨ BAHAGIAN HERO (ATAS SEKALI)' },
+            { type: 'heading', label: '✨ HERO SECTION (BAHAGIAN ATAS)' },
+            { name: 'heroTagline', label: 'Teks Tagline Kecil', type: 'text', default: 'Growing in Faith, Knowledge & Sisterhood' },
             { name: 'heroTitle', label: 'Tajuk Utama Hero', type: 'text', default: 'A Safe Space for Every Muslimah to Grow' },
-            { name: 'heroDesc', label: 'Keterangan Hero (Subtitle)', type: 'textarea', default: '"Building hearts connected to Allah through knowledge, sincere sisterhood, and meaningful reminders."' },
-            { name: 'heroImg', label: 'Gambar Hero', type: 'image', default: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
-            { name: 'nextGatheringTitle', label: 'Tajuk Kad Gathering (e.g. Next Gathering)', type: 'text', default: 'Next Gathering' },
+            { name: 'heroDesc', label: 'Keterangan Hero', type: 'textarea', default: '"Building hearts connected to Allah through knowledge, sincere sisterhood, and meaningful reminders."' },
+            { name: 'heroImg', label: 'Gambar Hero Utama', type: 'image', default: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+            { name: 'heroJoinBtn', label: 'Teks Butang Utama (Primary)', type: 'text', default: 'Join Our Circle' },
+            { name: 'heroExploreBtn', label: 'Teks Butang Kedua (Secondary)', type: 'text', default: 'Explore Our Events' },
+            
+            { type: 'heading', label: '📆 KAD NEXT GATHERING (PADA GAMBAR HERO)' },
+            { name: 'nextGatheringTitle', label: 'Tajuk Kad Gathering', type: 'text', default: 'Next Gathering' },
             { name: 'nextGatheringSub', label: 'Isi Kad Gathering (e.g. Friday Usrah)', type: 'text', default: 'Friday Usrah' },
 
-            { type: 'heading', label: '📖 BAHAGIAN ABOUT US' },
-            { name: 'aboutTitle', label: 'Tajuk About Us', type: 'text', default: 'Nurturing Souls, Building Sisterhood' },
-            { name: 'aboutDesc', label: 'Keterangan About Us', type: 'textarea', default: 'Welcome to Hijrah Sisters IIUMK, a sanctuary designed for Muslim women. We are more than just a community; we are a support system dedicated to nurturing each other spiritually, emotionally, and intellectually.\n\nIn a fast-paced world, we provide a calm, welcoming space to pause, reflect, and reconnect with our Creator and our true selves.' },
-            { name: 'aboutImg', label: 'Gambar About Us', type: 'image', default: 'https://images.unsplash.com/photo-1507914372368-b2b085cc1450?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
+            { type: 'heading', label: '📖 BAHAGIAN ABOUT US (TENTANG KAMI)' },
+            { name: 'aboutTitle', label: 'Tajuk Seksyen About Us', type: 'text', default: 'Nurturing Souls, Building Sisterhood' },
+            { name: 'aboutDesc1', label: 'Perenggan 1 About Us', type: 'textarea', default: 'Welcome to Hijrah Sisters IIUMK, a sanctuary designed for Muslim women. We are more than just a community; we are a support system dedicated to nurturing each other spiritually, emotionally, and intellectually.' },
+            { name: 'aboutDesc2', label: 'Perenggan 2 About Us', type: 'textarea', default: 'In a fast-paced world, we provide a calm, welcoming space to pause, reflect, and reconnect with our Creator and our true selves. We grow together through:' },
+            { name: 'aboutBullet1', label: 'Bullet Point 1', type: 'text', default: 'Weekly Usrah & Heart Talks' },
+            { name: 'aboutBullet2', label: 'Bullet Point 2', type: 'text', default: 'Quran Reflections & Tadabbur' },
+            { name: 'aboutBullet3', label: 'Bullet Point 3', type: 'text', default: 'Personal Development based on Islam' },
+            { name: 'aboutImg', label: 'Gambar Seksyen About Us', type: 'image', default: 'https://images.unsplash.com/photo-1507914372368-b2b085cc1450?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
 
-            { type: 'heading', label: '🤝 BAHAGIAN JOIN US (WHATSAPP)' },
-            { name: 'joinTitle', label: 'Tajuk Join Us', type: 'text', default: 'Become Part of Our Sisterhood' },
-            { name: 'joinDesc', label: 'Keterangan Join Us', type: 'textarea', default: 'Whether you are taking your first steps towards practicing or looking for a community to help you stay steadfast, there is a place for you here.' },
-            { name: 'joinWhatsapp', label: 'Pautan WhatsApp Admin', type: 'text', default: 'https://wa.me/YOUR_PHONE_NUMBER_HERE?text=Assalamu%27alaikum!%20I%20am%20interested%20in%20joining%20Hijrah%20Sisters%20IIUMK.' },
-            { name: 'joinBtnText', label: 'Teks Butang WhatsApp', type: 'text', default: 'Join via WhatsApp' },
+            { type: 'heading', label: '🛠️ TAJUK-TAJUK SEKSYEN LAIN' },
+            { name: 'activitiesTitle', label: 'Tajuk Seksyen Activities', type: 'text', default: 'Our Activities' },
+            { name: 'eventsTitle', label: 'Tajuk Seksyen Events', type: 'text', default: 'Upcoming Events' },
+            { name: 'eventsSubtitle', label: 'Keterangan Seksyen Events', type: 'text', default: 'Join us in our upcoming gatherings.' },
+            { name: 'eventsFilterAll', label: 'Teks Filter "All"', type: 'text', default: 'All' },
+            { name: 'eventsFilterMonth', label: 'Teks Filter "This Month"', type: 'text', default: 'This Month' },
+            { name: 'resourcesTitle', label: 'Tajuk Seksyen Resources', type: 'text', default: 'Nourish Your Soul' },
+            { name: 'resourcesSubtitle', label: 'Keterangan Seksyen Resources', type: 'text', default: 'Curated resources for your spiritual journey.' },
+            { name: 'galleryTitle', label: 'Tajuk Seksyen Gallery', type: 'text', default: 'Moments of Sisterhood' },
+            { name: 'gallerySubtitle', label: 'Keterangan Seksyen Gallery', type: 'text', default: 'Glimpses of our peaceful gatherings.' },
+            { name: 'testimonialsSwipeText', label: 'Teks Arahan Komen (Swipe Text)', type: 'text', default: 'Swipe to read more' },
 
-            { type: 'heading', label: '📌 FOOTER & MEDIA SOSIAL' },
-            { name: 'footerQuote', label: 'Petikan Ayat Al-Quran', type: 'text', default: 'Indeed, the believers are but brothers (and sisters).' },
-            { name: 'footerQuoteRef', label: 'Rujukan Ayat Al-Quran (e.g. Quran 49:10)', type: 'text', default: '(Qur\'an 49:10)' },
+            { type: 'heading', label: '🤝 BAHAGIAN JOIN OUR CIRCLE' },
+            { name: 'joinTitle', label: 'Tajuk Seksyen Join', type: 'text', default: 'Become Part of Our Sisterhood' },
+            { name: 'joinDesc', label: 'Keterangan Seksyen Join', type: 'textarea', default: 'Whether you are taking your first steps towards practicing or looking for a community to help you stay steadfast, there is a place for you here.' },
+            { name: 'joinWhatsapp', label: 'Pautan Chat WhatsApp Admin (Penuh)', type: 'text', default: 'https://wa.me/60123456789?text=Assalamualaikum' },
+            { name: 'joinBtnText', label: 'Teks Butang Hubungi', type: 'text', default: 'Join via WhatsApp' },
+            { name: 'joinNoteText', label: 'Teks Nota di bawah Butang', type: 'text', default: 'Clicking the button will open a chat with our admin.' },
+            { name: 'faqTitle', label: 'Tajuk Seksyen FAQ', type: 'text', default: 'Frequently Asked Questions' },
+
+            { type: 'heading', label: '📌 KANDUNGAN FOOTER (BAHAGIAN KAKI)' },
+            { name: 'footerQuote', label: 'Petikan Ayat Al-Quran (Footer)', type: 'text', default: 'Indeed, the believers are but brothers (and sisters).' },
+            { name: 'footerQuoteRef', label: 'Rujukan Ayat (e.g. Quran 49:10)', type: 'text', default: '(Qur\'an 49:10)' },
+            { name: 'footerLinksTitle', label: 'Tajuk Kolum Links', type: 'text', default: 'Quick Links' },
+            { name: 'footerConnectTitle', label: 'Tajuk Kolum Hubungi', type: 'text', default: 'Connect With Us' },
             { name: 'footerAddress', label: 'Alamat Kaki Website', type: 'textarea', default: 'IIUM Kuantan Campus,\nPahang, Malaysia' },
-            { name: 'footerPhone', label: 'No. Telefon Paparan', type: 'text', default: '+60 12-345 6789 (Admin)' },
-            { name: 'instagramUrl', label: 'Pautan Instagram', type: 'text', default: '#' },
-            { name: 'facebookUrl', label: 'Pautan Facebook', type: 'text', default: '#' },
-            { name: 'telegramUrl', label: 'Pautan Telegram', type: 'text', default: '#' }
+            { name: 'footerPhone', label: 'No. Telefon Admin (Paparan)', type: 'text', default: '+60 12-345 6789 (Admin)' },
+            { name: 'footerCopyright', label: 'Keterangan Hak Cipta', type: 'text', default: '© 2024 Hijrah Sisters IIUMK. All rights reserved.' },
+            { name: 'footerCredit', label: 'Teks Penghargaan Pereka', type: 'text', default: 'Designed with ❤️ for the sake of Allah.' },
+            { name: 'instagramUrl', label: 'Pautan Instagram (Penuh)', type: 'text', default: '#' },
+            { name: 'facebookUrl', label: 'Pautan Facebook (Penuh)', type: 'text', default: '#' },
+            { name: 'telegramUrl', label: 'Pautan Telegram (Penuh)', type: 'text', default: '#' }
         ]
     },
     activities: {
@@ -184,7 +212,6 @@ window.renderForm = function(collectionId, item = null) {
     
     let html = `<form id="dynamic-form" class="space-y-6 max-w-2xl">`;
     config.fields.forEach(f => {
-        // Paparkan pengepala seksyen jika ianya jenis 'heading'
         if (f.type === 'heading') {
             html += `
                 <div class="pt-8 border-t border-gray-700 mt-8 first:pt-0 first:mt-0 first:border-none">
@@ -195,7 +222,6 @@ window.renderForm = function(collectionId, item = null) {
             return;
         }
 
-        // Tentukan nilai lalai (default value) dari data client jika tiada rekod dalam database
         const val = item ? item[f.name] : '';
         const displayVal = (val !== undefined && val !== null && val !== '') ? val : (f.default || '');
 
@@ -206,9 +232,9 @@ window.renderForm = function(collectionId, item = null) {
         } else if (f.type === 'image') {
             html += `
                 <div class="flex items-center gap-4 bg-gray-700 p-3 rounded">
-                    ${displayVal ? `<img src="${displayVal}" id="preview-${f.name}" width="60" class="rounded shadow">` : ''}
+                    ${displayVal ? `<img src="${displayVal}" id="preview-${f.name}" width="60" class="rounded">` : ''}
                     <input type="file" id="file-${f.name}" accept="image/*" class="text-sm">
-                    <input type="hidden" id="${f.name}" value="${displayVal}">
+                    <input type="hidden" id="${f.name}" value="${displayVal || ''}">
                 </div>`;
         } else if (f.type === 'select') {
             html += `<select id="${f.name}" class="w-full p-3 bg-gray-700 border-none rounded text-white">`;
@@ -235,9 +261,8 @@ window.renderForm = function(collectionId, item = null) {
 
         const payload = {};
         
-        // Memproses fail & muat naik gambar ke ImgBB
         for (const f of config.fields) {
-            if (f.type === 'heading') continue; // Abaikan pengepala seksyen semasa menyimpan
+            if (f.type === 'heading') continue;
 
             if (f.type === 'image') {
                 const fileInput = document.getElementById(`file-${f.name}`);
