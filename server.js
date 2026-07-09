@@ -4,7 +4,7 @@ const cors = require('cors');
 const admin = require('firebase-admin');
 const path = require('path');
 
-// Initialize Firebase Admin SDK (Hanya berjalan jika Environment Variables wujud)
+// Initialize Firebase Admin SDK
 try {
     if (!admin.apps.length) {
         admin.initializeApp({
@@ -26,10 +26,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Set folder static
+// Set folder static - wajib diletakkan di atas sekali
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware untuk verify JWT Token daripada Firebase Auth
+// Middleware untuk verify JWT Token
 const verifyToken = async (req, res, next) => {
     const bearerHeader = req.headers['authorization'];
     if (!bearerHeader) return res.status(403).json({ error: 'No token provided' });
@@ -43,7 +43,7 @@ const verifyToken = async (req, res, next) => {
     }
 };
 
-// --- PUBLIC API (Untuk website layari) ---
+// --- PUBLIC API ---
 app.get('/api/public/all', async (req, res) => {
     try {
         const [settings, events, activities, resources, gallery, testimonials, faqs] = await Promise.all([
@@ -70,7 +70,7 @@ app.get('/api/public/all', async (req, res) => {
     }
 });
 
-// --- PROTECTED ADMIN API (Untuk CMS simpan/padam data) ---
+// --- PROTECTED ADMIN API ---
 app.get('/api/admin/:collection', verifyToken, async (req, res) => {
     try {
         const snapshot = await db.collection(req.params.collection).get();
@@ -104,21 +104,20 @@ app.delete('/api/admin/:collection/:id', verifyToken, async (req, res) => {
         res.json({ message: 'Deleted successfully' });
     } catch (error) { res.status(500).json({ error: error.message }); }
 });
+
 // --- HALUAN TRAFIK (Routing) ---
-// Menyokong kedua-dua format: /admin ATAU /admin/
-app.get(['/admin', '/admin/'], (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/admin/index.html'));
+// Penggunaan path.join secara selamat untuk Linux serverless Vercel
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html'));
+});
+
+app.get('/admin/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin', 'index.html'));
 });
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/client/index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'client', 'index.html'));
 });
 
-// Hanya run app.listen di lokal komputer, bukan di Vercel
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => console.log(`Server running locally on port ${PORT}`));
-}
-
-// Eksport untuk kegunaan Serverless Vercel
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
