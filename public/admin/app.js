@@ -10,15 +10,17 @@ const auth = firebase.auth();
 // 2. IMGBB API KEY (Get this from api.imgbb.com)
 const IMGBB_API_KEY = "50e185b01c7b0fb4206b32827c88a766";
 
-// 3. SKEMA CMS 100% DINAMIK UNTUK SETIAP BAHAGIAN WEBSITE
+// 3. SKEMA CMS 100% DINAMIK - MEMUATKAN SEMUA DATA ASAL DARI CLIENT INDEX.HTML
 const schema = {
     settings: {
         title: 'Halaman Utama & Teks', isSingle: true,
         fields: [
-            { type: 'heading', label: '🌸 NAVIGATION & BRANDING' },
-            { name: 'siteName', label: 'Nama Website (Logo Utama)', type: 'text', default: 'Hijrah Sisters' },
-            { name: 'siteSub', label: 'Sub-Logo (e.g. IIUMK)', type: 'text', default: 'IIUMK' },
-            { name: 'navJoinBtnText', label: 'Teks Butang Navigasi', type: 'text', default: 'Join Our Circle' },
+            { type: 'heading', label: '🌸 IDENTITI BRANDING & LOGO (BOLEH UBAH DENGAN UPLOAD)' },
+            { name: 'siteLogoImg', label: 'Upload Gambar Logo Utama (Menggantikan Ikon Daun Asal)', type: 'image', default: '' },
+            { name: 'siteLogoIcon', label: 'FontAwesome Icon Lalai (Jika tiada gambar logo diupload)', type: 'text', default: 'fa-solid fa-leaf' },
+            { name: 'siteName', label: 'Nama Website (Logo Teks)', type: 'text', default: 'Hijrah Sisters' },
+            { name: 'siteSub', label: 'Sub-Logo Teks (e.g. IIUMK)', type: 'text', default: 'IIUMK' },
+            { name: 'navJoinBtnText', label: 'Teks Butang Navigasi Atas', type: 'text', default: 'Join Our Circle' },
 
             { type: 'heading', label: '✨ HERO SECTION (BAHAGIAN ATAS)' },
             { name: 'heroTagline', label: 'Teks Tagline Kecil', type: 'text', default: 'Growing in Faith, Knowledge & Sisterhood' },
@@ -26,11 +28,12 @@ const schema = {
             { name: 'heroDesc', label: 'Keterangan Hero', type: 'textarea', default: '"Building hearts connected to Allah through knowledge, sincere sisterhood, and meaningful reminders."' },
             { name: 'heroImg', label: 'Gambar Hero Utama', type: 'image', default: 'https://images.unsplash.com/photo-1542826438-bd32f43d626f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
             { name: 'heroJoinBtn', label: 'Teks Butang Utama (Primary)', type: 'text', default: 'Join Our Circle' },
-            { name: 'heroExploreBtn', label: 'Teks Butang Kedua (Secondary)', type: 'text', default: 'Explore Our Events' },
+            { name: 'heroExploreBtn', label: 'Teks Butang Kedua (Secondary)', type: 'text', default: 'Explore Events' },
             
             { type: 'heading', label: '📆 KAD NEXT GATHERING (PADA GAMBAR HERO)' },
+            { name: 'nextGatheringIcon', label: 'Icon Kad Gathering (FontAwesome Class)', type: 'text', default: 'fa-solid fa-quran' },
             { name: 'nextGatheringTitle', label: 'Tajuk Kad Gathering', type: 'text', default: 'Next Gathering' },
-            { name: 'nextGatheringSub', label: 'Isi Kad Gathering (e.g. Friday Usrah)', type: 'text', default: 'Friday Usrah' },
+            { name: 'nextGatheringSub', label: 'Isi Kad Gathering', type: 'text', default: 'Friday Usrah' },
 
             { type: 'heading', label: '📖 BAHAGIAN ABOUT US (TENTANG KAMI)' },
             { name: 'aboutTitle', label: 'Tajuk Seksyen About Us', type: 'text', default: 'Nurturing Souls, Building Sisterhood' },
@@ -41,7 +44,7 @@ const schema = {
             { name: 'aboutBullet3', label: 'Bullet Point 3', type: 'text', default: 'Personal Development based on Islam' },
             { name: 'aboutImg', label: 'Gambar Seksyen About Us', type: 'image', default: 'https://images.unsplash.com/photo-1507914372368-b2b085cc1450?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80' },
 
-            { type: 'heading', label: '🛠️ TAJUK-TAJUK SEKSYEN LAIN' },
+            { type: 'heading', label: '🛠️ KAWALAN TAJUK SEKSYEN LAIN' },
             { name: 'activitiesTitle', label: 'Tajuk Seksyen Activities', type: 'text', default: 'Our Activities' },
             { name: 'eventsTitle', label: 'Tajuk Seksyen Events', type: 'text', default: 'Upcoming Events' },
             { name: 'eventsSubtitle', label: 'Keterangan Seksyen Events', type: 'text', default: 'Join us in our upcoming gatherings.' },
@@ -56,14 +59,14 @@ const schema = {
             { type: 'heading', label: '🤝 BAHAGIAN JOIN OUR CIRCLE' },
             { name: 'joinTitle', label: 'Tajuk Seksyen Join', type: 'text', default: 'Become Part of Our Sisterhood' },
             { name: 'joinDesc', label: 'Keterangan Seksyen Join', type: 'textarea', default: 'Whether you are taking your first steps towards practicing or looking for a community to help you stay steadfast, there is a place for you here.' },
-            { name: 'joinWhatsapp', label: 'Pautan Chat WhatsApp Admin (Penuh)', type: 'text', default: 'https://wa.me/60123456789?text=Assalamualaikum' },
+            { name: 'joinWhatsapp', label: 'Pautan Chat WhatsApp Admin (Mula dengan https://wa.me/)', type: 'text', default: 'https://wa.me/YOUR_PHONE_NUMBER_HERE?text=Assalamu%27alaikum!%20I%20am%20interested%20in%20joining%20Hijrah%20Sisters%20IIUMK.' },
             { name: 'joinBtnText', label: 'Teks Butang Hubungi', type: 'text', default: 'Join via WhatsApp' },
             { name: 'joinNoteText', label: 'Teks Nota di bawah Butang', type: 'text', default: 'Clicking the button will open a chat with our admin.' },
             { name: 'faqTitle', label: 'Tajuk Seksyen FAQ', type: 'text', default: 'Frequently Asked Questions' },
 
             { type: 'heading', label: '📌 KANDUNGAN FOOTER (BAHAGIAN KAKI)' },
             { name: 'footerQuote', label: 'Petikan Ayat Al-Quran (Footer)', type: 'text', default: 'Indeed, the believers are but brothers (and sisters).' },
-            { name: 'footerQuoteRef', label: 'Rujukan Ayat (e.g. Quran 49:10)', type: 'text', default: '(Qur\'an 49:10)' },
+            { name: 'footerQuoteRef', label: 'Rujukan Ayat (e.g. (Qur\'an 49:10))', type: 'text', default: '(Qur\'an 49:10)' },
             { name: 'footerLinksTitle', label: 'Tajuk Kolum Links', type: 'text', default: 'Quick Links' },
             { name: 'footerConnectTitle', label: 'Tajuk Kolum Hubungi', type: 'text', default: 'Connect With Us' },
             { name: 'footerAddress', label: 'Alamat Kaki Website', type: 'textarea', default: 'IIUM Kuantan Campus,\nPahang, Malaysia' },
