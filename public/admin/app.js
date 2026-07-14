@@ -70,13 +70,14 @@ const schema = {
             { name: 'telegramUrl', label: 'Pautan Telegram', type: 'text', default: '#' },
             { name: 'tiktokUrl', label: 'Pautan TikTok', type: 'text', default: '#' }
         ]
-   activities: {
+    },
+    activities: {
         title: 'Activities',
         fields: [
             { name: 'title', label: 'Nama Aktiviti', type: 'text', placeholder: 'e.g. Weekly Usrah' },
             { name: 'description', label: 'Keterangan Aktiviti', type: 'textarea', placeholder: 'e.g. Intimate circles sharing reminders and strengthening bonds.' },
             { name: 'icon', label: 'Icon Class (e.g. fa-solid fa-users)', type: 'text', placeholder: 'fa-solid fa-users' },
-            { name: 'image', label: 'Gambar Latar Belakang Kad (Aktiviti)', type: 'image', default: '' } // <-- TAMBAH BARIS INI
+            { name: 'image', label: 'Gambar Latar Belakang Kad (Aktiviti)', type: 'image', default: '' }
         ]
     },
     resources: {
