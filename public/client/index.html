@@ -589,14 +589,23 @@ setSocialMediaLink('footer-tiktok', s.tiktokUrl);
                         if (s.footerCredit) document.getElementById('footer-credit').innerHTML = s.footerCredit;
                     }
 
+                   // Render Activities (Kini Menyokong Gambar Background Dinamik)
                     if (data.activities && data.activities.length > 0) {
                         document.getElementById('activities-grid').innerHTML = data.activities.map((act, i) => `
-                            <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group" style="transition-delay: ${i * 100}ms;">
-                                <div class="w-16 h-16 mx-auto bg-blush-100 dark:bg-blush-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                    <i class="${act.icon || 'fa-solid fa-leaf'} text-2xl text-blush-600 dark:text-blush-300"></i>
+                            <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group relative overflow-hidden" style="transition-delay: ${i * 100}ms;">
+                                
+                                <!-- Gambar Latar Belakang Kad (Ditinjau secara lutsinar di belakang) -->
+                                ${act.image ? `<div class="absolute inset-0 z-0 opacity-[0.12] dark:opacity-[0.06] bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style="background-image: url('${act.image}');"></div>` : ''}
+                                
+                                <!-- Kandungan Teks & Ikon (z-10 diletakkan di lapisan hadapan gambar) -->
+                                <div class="relative z-10">
+                                    <div class="w-16 h-16 mx-auto bg-blush-100 dark:bg-blush-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        <i class="${act.icon || 'fa-solid fa-leaf'} text-2xl text-blush-600 dark:text-blush-300"></i>
+                                    </div>
+                                    <h4 class="font-serif font-bold text-lg mb-2 dark:text-white">${act.title}</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">${act.description}</p>
                                 </div>
-                                <h4 class="font-serif font-bold text-lg mb-2 dark:text-white">${act.title}</h4>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">${act.description}</p>
+                                
                             </div>
                         `).join('');
                     }
