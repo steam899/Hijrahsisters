@@ -499,6 +499,9 @@
                 });
             }, appearOptions);
 
+            // Sila tambah ini supaya elemen asal tidak lagi tersangkut/halimunan semasa mula-mula buka page:
+            document.querySelectorAll('.fade-in-section').forEach(f => appearOnScroll.observe(f));
+            
             // --- HYDRATION ENGINE ---
             (async function() {
                 try {
