@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="/client/logo.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -78,6 +77,8 @@
                 <nav class="hidden md:flex space-x-8 items-center">
                     <a href="#home" class="text-sm font-medium hover:text-blush-500 transition-colors">Home</a>
                     <a href="#about" class="text-sm font-medium hover:text-blush-500 transition-colors">About Us</a>
+                    <!-- TAMBAH DI NAV BAR DESKTOP -->
+                    <a href="#activities" class="text-sm font-medium hover:text-blush-500 transition-colors">Activities</a>
                     <a href="#resources" class="text-sm font-medium hover:text-blush-500 transition-colors">Resources</a>
                     <a href="#gallery" class="text-sm font-medium hover:text-blush-500 transition-colors">Gallery</a>
                     <button id="theme-toggle" class="text-gray-500 hover:text-blush-500 focus:outline-none"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
@@ -95,6 +96,8 @@
             <div class="px-4 pt-2 pb-6 space-y-1 shadow-lg">
                 <a href="#home" class="block px-3 py-3 text-base mobile-link">Home</a>
                 <a href="#about" class="block px-3 py-3 text-base mobile-link">About Us</a>
+                <!-- TAMBAH DI MENU MOBILE -->
+                <a href="#activities" class="block px-3 py-3 text-base mobile-link">Activities</a>
                 <a href="#resources" class="block px-3 py-3 text-base mobile-link">Resources</a>
                 <a href="#gallery" class="block px-3 py-3 text-base mobile-link">Gallery</a>
                 <a id="mobile-join-btn" href="#join" class="block mt-4 text-center bg-blush-500 text-white px-3 py-3 rounded-md">Join Our Circle</a>
@@ -161,26 +164,17 @@
                 </div>
                 <div id="activities-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     <!-- Default Activity 1 -->
-                    <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group">
-                        <div class="w-16 h-16 mx-auto bg-blush-100 dark:bg-blush-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-users text-2xl text-blush-600 dark:text-blush-300"></i>
-                        </div>
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group relative overflow-hidden">
                         <h4 class="font-serif font-bold text-lg mb-2 dark:text-white">Weekly Usrah</h4>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Intimate circles sharing reminders and strengthening bonds.</p>
                     </div>
                     <!-- Default Activity 2 -->
-                    <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group">
-                        <div class="w-16 h-16 mx-auto bg-blush-100 dark:bg-blush-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-book-quran text-2xl text-blush-600 dark:text-blush-300"></i>
-                        </div>
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group relative overflow-hidden">
                         <h4 class="font-serif font-bold text-lg mb-2 dark:text-white">Quran Tadabbur</h4>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Deep reflections on the verses of Allah to heal the heart.</p>
                     </div>
                     <!-- Default Activity 3 -->
-                    <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group">
-                        <div class="w-16 h-16 mx-auto bg-blush-100 dark:bg-blush-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                            <i class="fa-solid fa-mug-hot text-2xl text-blush-600 dark:text-blush-300"></i>
-                        </div>
+                    <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group relative overflow-hidden">
                         <h4 class="font-serif font-bold text-lg mb-2 dark:text-white">Book Club</h4>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Reading and discussing beneficial Islamic literature together.</p>
                     </div>
@@ -315,6 +309,7 @@
                     <h4 id="footer-links-title" class="font-bold text-gold uppercase tracking-wider text-sm mb-6">Quick Links</h4>
                     <ul class="space-y-3 text-sm">
                         <li><a href="#about" class="hover:text-gold transition-colors">About Our Circle</a></li>
+                        <!-- TAMBAH DI FOOTER QUICK LINKS -->
                         <li><a href="#activities" class="hover:text-gold transition-colors">Weekly Activities</a></li>
                         <li><a href="#resources" class="hover:text-gold transition-colors">Islamic Resources</a></li>
                         <li><a href="#gallery" class="hover:text-gold transition-colors">Photo Gallery</a></li>
@@ -344,7 +339,7 @@
             </div>
             
             <div class="border-t border-blush-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-blush-400">
-                <p id="footer-copyright">&copy; 2024 Hijrah Sisters IIUMK. All rights reserved.</p>
+                <p id="footer-copyright">&copy; 2026 Hijrah Sisters IIUMK. All rights reserved.</p>
                 <p id="footer-credit" class="mt-2 md:mt-0">Designed with <i class="fa-solid fa-heart text-blush-500 mx-1"></i> for the sake of Allah.</p>
             </div>
         </div>
@@ -460,6 +455,9 @@
                 });
             }, appearOptions);
 
+            // PEMERHATIAN LALAI UNTUK MENCEGAH MASALAH SKRIN KOSONG (BUG FIX MUKTAMAD)
+            document.querySelectorAll('.fade-in-section').forEach(f => appearOnScroll.observe(f));
+
             // --- HYDRATION ENGINE ---
             (async function() {
                 try {
@@ -499,6 +497,22 @@
                         if (s.heroJoinBtn) document.getElementById('hero-primary-btn').textContent = s.heroJoinBtn;
                         if (s.heroExploreBtn) document.getElementById('hero-secondary-btn').textContent = s.heroExploreBtn;
 
+                        // GAMBAR LATAR BELAKANG HERO DINAMIK (DENGAN OVERLAY JELAS KONTRAST TEKS)
+                        if (s.heroBgImg && s.heroBgImg.trim() !== '') {
+                            const heroSec = document.getElementById('home');
+                            if (heroSec) {
+                                heroSec.style.backgroundImage = `url('${s.heroBgImg}')`;
+                                heroSec.style.backgroundSize = 'cover';
+                                heroSec.style.backgroundPosition = 'center';
+                                if (!document.getElementById('hero-bg-overlay')) {
+                                    const overlay = document.createElement('div');
+                                    overlay.id = 'hero-bg-overlay';
+                                    overlay.className = 'absolute inset-0 bg-white/75 dark:bg-black/80 z-0';
+                                    heroSec.prepend(overlay);
+                                }
+                            }
+                        }
+
                         if (s.nextGatheringIcon) {
                             const ngIcon = document.getElementById('next-gathering-icon');
                             if(ngIcon) ngIcon.className = s.nextGatheringIcon + ' text-xl';
@@ -521,22 +535,6 @@
                         if (s.aboutImg) document.getElementById('about-img-el').src = s.aboutImg;
 
                         if (s.activitiesTitle) document.getElementById('activities-title-text').textContent = s.activitiesTitle;
-                        if (s.eventsTitle) {
-                            const evTitle = document.getElementById('events-title-text');
-                            if(evTitle) evTitle.textContent = s.eventsTitle;
-                        }
-                        if (s.eventsSubtitle) {
-                            const evSub = document.getElementById('events-subtitle-text');
-                            if(evSub) evSub.textContent = s.eventsSubtitle;
-                        }
-                        if (s.eventsFilterAll) {
-                            const evFilterAll = document.getElementById('filter-btn-all');
-                            if(evFilterAll) evFilterAll.textContent = s.eventsFilterAll;
-                        }
-                        if (s.eventsFilterMonth) {
-                            const evFilterMonth = document.getElementById('filter-btn-month');
-                            if(evFilterMonth) evFilterMonth.textContent = s.eventsFilterMonth;
-                        }
                         if (s.resourcesTitle) document.getElementById('resources-title-text').textContent = s.resourcesTitle;
                         if (s.resourcesSubtitle) document.getElementById('resources-subtitle-text').textContent = s.resourcesSubtitle;
                         if (s.galleryTitle) document.getElementById('gallery-title-text').textContent = s.galleryTitle;
@@ -589,15 +587,13 @@ setSocialMediaLink('footer-tiktok', s.tiktokUrl);
                         if (s.footerCredit) document.getElementById('footer-credit').innerHTML = s.footerCredit;
                     }
 
-                   // Render Activities (Kini Menyokong Gambar Background Dinamik)
                     if (data.activities && data.activities.length > 0) {
                         document.getElementById('activities-grid').innerHTML = data.activities.map((act, i) => `
                             <div class="bg-white dark:bg-darkCard p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow text-center fade-in-section group relative overflow-hidden" style="transition-delay: ${i * 100}ms;">
                                 
-                                <!-- Gambar Latar Belakang Kad (Ditinjau secara lutsinar di belakang) -->
-                                ${act.image ? `<div class="absolute inset-0 z-0 opacity-[0.12] dark:opacity-[0.06] bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style="background-image: url('${act.image}');"></div>` : ''}
+                                <!-- GAMBAR WATERMARK LATAR BELAKANG KAD AKTIVITI (OPACITY DIKEMASKINI LEBIH KELIHATAN JELAS) -->
+                                ${act.image ? `<div class="absolute inset-0 z-0 opacity-[0.25] dark:opacity-[0.12] bg-cover bg-center group-hover:scale-110 transition-transform duration-700" style="background-image: url('${act.image}');"></div>` : ''}
                                 
-                                <!-- Kandungan Teks & Ikon (z-10 diletakkan di lapisan hadapan gambar) -->
                                 <div class="relative z-10">
                                     <div class="w-16 h-16 mx-auto bg-blush-100 dark:bg-blush-900/30 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                         <i class="${act.icon || 'fa-solid fa-leaf'} text-2xl text-blush-600 dark:text-blush-300"></i>
@@ -605,31 +601,8 @@ setSocialMediaLink('footer-tiktok', s.tiktokUrl);
                                     <h4 class="font-serif font-bold text-lg mb-2 dark:text-white">${act.title}</h4>
                                     <p class="text-sm text-gray-500 dark:text-gray-400">${act.description}</p>
                                 </div>
-                                
                             </div>
                         `).join('');
-                    }
-
-                    if (data.events && data.events.length > 0) {
-                        const evGrid = document.getElementById('events-grid');
-                        if(evGrid) {
-                            evGrid.innerHTML = data.events.map((evt, i) => `
-                                <div class="bg-blush-50 dark:bg-darkBg rounded-3xl overflow-hidden shadow-sm border border-blush-100 dark:border-gray-800 fade-in-section flex flex-col h-full" style="transition-delay: ${i * 100}ms;">
-                                    <img src="${evt.image}" alt="${evt.title}" class="w-full h-48 object-cover">
-                                    <div class="p-6 flex flex-col flex-grow">
-                                        <div class="flex gap-2 mb-3">
-                                            <span class="bg-white dark:bg-darkCard text-blush-600 dark:text-blush-400 text-xs font-bold px-3 py-1 rounded-full shadow-sm">${evt.category.toUpperCase()}</span>
-                                        </div>
-                                        <h4 class="font-serif text-xl font-bold mb-4 dark:text-white">${evt.title}</h4>
-                                        <div class="space-y-2 mb-6 text-sm text-gray-600 dark:text-gray-400 flex-grow">
-                                            <p><i class="fa-regular fa-calendar text-blush-400 mr-2 w-4"></i> ${evt.date}</p>
-                                            <p><i class="fa-solid fa-location-dot text-blush-400 mr-2 w-4"></i> ${evt.venue}</p>
-                                        </div>
-                                        <a href="${evt.registrationLink || '#'}" target="_blank" class="w-full py-3 rounded-xl border border-blush-500 text-blush-600 dark:text-blush-300 font-medium hover:bg-blush-500 hover:text-white transition-colors text-center block">Register via WhatsApp</a>
-                                    </div>
-                                </div>
-                            `).join('');
-                        }
                     }
 
                     if (data.resources && data.resources.length > 0) {
@@ -642,6 +615,7 @@ setSocialMediaLink('footer-tiktok', s.tiktokUrl);
                         `).join('');
                     }
 
+                    // HOVER BADGE CAPTION DI TENGAH-TENGAH GAMBAR GALLERY (ELEGANT PILL SHIELD)
                     if (data.gallery && data.gallery.length > 0) {
                         document.getElementById('gallery-grid').innerHTML = data.gallery.map(img => `
                             <div class="masonry-item rounded-2xl overflow-hidden cursor-pointer group relative">
